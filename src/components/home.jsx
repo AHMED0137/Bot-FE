@@ -10,9 +10,10 @@ const Home = () => {
   const [modal, setModal] = useState({ show: false, message: "", gif: "" });
   const [currentPage, setCurrentPage] = useState(1);
   const signalsPerPage = 4;
+  const BACKEND_URL = "https://bot-app-production.up.railway.app";
 
   useEffect(() => {
-    fetch("/api/user", { credentials: "include" })
+    fetch(`${BACKEND_URL}/api/user`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setUsername(data.username || "U"));
 
@@ -25,7 +26,9 @@ const Home = () => {
 
   useEffect(() => {
     const fetchSignals = async () => {
-      const res = await fetch("/api/signals", { credentials: "include" });
+      const res = await fetch(`${BACKEND_URL}/api/signals`, {
+        credentials: "include",
+      });
       const data = await res.json();
       if (!data.error) setSignals(data.reverse());
     };
@@ -51,7 +54,8 @@ const Home = () => {
   }, [signals, currentPage]);
 
   const handleBot = async (type) => {
-    const endpoint = `/api/${type}_bot`;
+    const BACKEND_URL = "https://bot-app-production.up.railway.app";
+    const endpoint = `${BACKEND_URL}/api/${type}_bot`;
     const res = await fetch(endpoint, {
       method: "POST",
       credentials: "include",
@@ -66,8 +70,11 @@ const Home = () => {
   };
 
   const handleLogout = async () => {
-    await fetch("/api/logout", { method: "POST", credentials: "include" });
-    window.location.href = "/login";
+    await fetch(`${BACKEND_URL}/api/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+    window.location.href = "/";
   };
 
   return (

@@ -9,14 +9,13 @@ const Login = () => {
     const form = new FormData(e.target);
     const username = form.get("username");
     const password = form.get("password");
-
-    const res = await fetch("/api/login", {
+    const BACKEND_URL = "https://bot-app-production.up.railway.app/api/login";
+    const res = await fetch(`${BACKEND_URL}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ username, password }),
     });
-
     if (res.ok) {
       window.location.href = "/home";
     } else {
